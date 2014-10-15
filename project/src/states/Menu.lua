@@ -18,6 +18,7 @@ function Menu:update()
     if gui.Button{text = "Physics editor"} then
         Gamestate.switch(Editor)
     end
+
     --[[
     if gui.Button{text = "Options"} then
         Gamestate.switch(Options)

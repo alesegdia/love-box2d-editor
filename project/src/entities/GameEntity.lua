@@ -8,6 +8,7 @@ GameEntity = Class {
   init = function(self, stage, x, y, anim, phbody, controller)
   	self = Entity.init(self, stage, x, y)
   	self.controller = controller or nil
+  	self.selected = false
   	self.anim = anim
   	self.physicbody = phbody
   	return self
@@ -19,7 +20,13 @@ GameEntity = Class {
 	self.pos.y = self.physicbody:getY()
   end,
   draw = function(self)
-	love.graphics.setColor({255,0,255,255})
+  	local color = {}
+  	if self.selected then color = {255, 255, 255, 255}
+	elseif self.physicbody:getType() == "static" then color = {255,0,255,255}
+	elseif self.physicbody:getType() == "dynamic" then color = { 255, 255, 0, 255 }
+	elseif self.physicbody:getType() == "kinematic" then color = { 0, 255, 255, 255 }
+	end
+	love.graphics.setColor(color)
 	for k,fix in pairs(self.physicbody:getFixtureList()) do
 	  if fix:getType() == "polygon" then
 		love.graphics.polygon("line", self.physicbody:getWorldPoints(fix:getShape():getPoints()))
